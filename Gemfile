@@ -50,6 +50,8 @@ gem "bootsnap", require: false
 
 gem "dotenv-rails", "~> 2.7", ">= 2.7.6"
 
+gem "rest-client", "~> 2.1"
+
 group :development, :test do
   gem "rspec-rails", "~> 6.0.0rc1"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -76,3 +78,5 @@ group :test do
 end
 
 gem "devise", "~> 4.8"
+
+gem "slim", "~> 4.1"

@@ -1,0 +1,24 @@
+h1 = "Forecast: #{@location.name}"
+
+- unless @weather_info.is_a?(Entities::Forecast)
+  p = @weather_info.inspect
+- else
+  h4 = "Date: #{@weather_info.date}"
+  table
+    thead
+      tr
+        th Temperature
+        th Wind
+        th Humidity
+    tbody
+      tr
+        td
+          p = "#{@weather_info.min_temp} - #{@weather_info.avg_temp} - #{@weather_info.max_temp}"
+        td
+          p = @weather_info.wind
+        td
+          p = @weather_info.humidity
+        td
+          p = @weather_info.text
+        td
+          img src="#{@weather_info.icon_url}"
