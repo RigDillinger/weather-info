@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+  app: &app
+    build:
+      context: .dockerdev
+      dockerfile: Dockerfile
+      args:
+        RUBY_VERSION: "3.1.2"
+        PG_MAJOR: "14"
+        NODE_MAJOR: "17"
+        BUNDLER_VERSION: "2.3.5"
+    image: weather_info:1.0.0
+    environment: &env
+      EDITOR: nano
+    tmpfs:
+      - /tmp
+      - /app/tmp/pids
+
+  backend: &backend
+    <<: *app
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+      - .dockerdev/.psqlrc:/root/.psqlrc:ro
+    environment:
+      <<: *env
+      DATABASE_HOST: ${DATABASE_HOST:-app}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-app}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-app}
+      DATABASE_NAME: ${DATABASE_NAME:-app}
+      BOOTSNAP_CACHE_DIR: /usr/local/bundle/bootsnap
+      HISTFILE: /app/log/.bash_history
+      PSQL_HISTFILE: /app/log/.psql_history
+    depends_on:
+      - postgres
+
+  runner:
+    <<: *backend
+    command: /bin/bash
+    ports:
+      - "3001:3001"
+
+  rails:
+    <<: *backend
+    command: bundle exec rails server -b '0.0.0.0'
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:14
+    volumes:
+      - .dockerdev/.psqlrc:/root/.psqlrc:ro
+      - postgres:${PGDATA:-/var/lib/postgresql/data}
+      - ./db/dumps:/docker-entrypoint-initdb.d/dumps
+      - ./log:/root/log:cached
+    environment:
+      PSQL_HISTFILE: /root/log/.psql_history
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - ${DATABASE_PORT:-5432}:5432
+
+volumes:
+  postgres:
+  bundle:
+  rails_cache:

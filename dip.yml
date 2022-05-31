@@ -1,0 +1,83 @@
+# Required minimum dip version
+version: "7.2"
+
+environment:
+  COMPOSE_EXT: development
+
+compose:
+  files:
+    - docker-compose.yml
+  project_name: weather_info
+
+interaction:
+  bash:
+    description: Open Bash in app's container
+    service: runner
+    compose:
+      run_options: [no-deps]
+
+  bundle:
+    description: Run Bundler commands
+    service: runner
+    command: bundle
+    compose:
+      run_options: [no-deps]
+
+  psql:
+    description: Run psql shell
+    service: postgres
+    command: sh -c 'psql -h postgres -U postgres'
+    compose:
+      run_options: [no-deps]
+
+  rake:
+    description: Run Rake commands
+    service: runner
+    command: bundle exec rake
+
+  rspec:
+    desription: Run RSpec commands
+    service: runner
+    environment:
+      RAILS_ENV: test
+    command: bundle exec rspec
+
+  rails:
+    description: Run Rails commands
+    service: runner
+    command: bundle exec rails
+    subcommands:
+      s:
+        description: Run Rails server at 'localhost:3000'
+        service: rails
+        compose:
+          run_options: [service-ports]
+
+  db:create:
+    description: Create database
+    service: runner
+    command: bundle exec rails db:create
+    compose:
+      run_options: [no-deps]
+
+  db:drop:
+    description: Drop database
+    service: runner
+    command: bundle exec rails db:drop
+    compose:
+      run_options: [no-deps]
+
+  db:migrate:
+    description: Run migrations
+    service: runner
+    command: bundle exec rails db:migrate
+    compose:
+      run_options: [no-deps]
+
+provision:
+  - cp .env.example .env
+  - dip compose down --volumes
+  - dip compose up -d postgres
+  - dip bash ./bin/setup.sh
+  - dip db:create
+  - dip db:migrate
