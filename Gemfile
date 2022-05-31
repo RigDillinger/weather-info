@@ -51,6 +51,7 @@ gem "bootsnap", require: false
 gem "dotenv-rails", "~> 2.7", ">= 2.7.6"
 
 group :development, :test do
+  gem "rspec-rails", "~> 6.0.0rc1"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
@@ -71,6 +72,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "shoulda-matchers", "~> 5.1"
 end
 
 gem "devise", "~> 4.8"
