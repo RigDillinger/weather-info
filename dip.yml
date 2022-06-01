@@ -81,3 +81,4 @@ provision:
   - dip bash ./bin/setup.sh
   - dip db:create
   - dip db:migrate
+  - dip rails runner ./bin/create_super_admin.rb

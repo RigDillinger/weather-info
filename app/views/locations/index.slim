@@ -1,5 +1,8 @@
 h1 Weather Info
 
+- if user_signed_in?
+  = button_to("Log Out", destroy_user_session_path, method: :delete)
+
 - if current_user.admin?
   h2 = link_to("Add location", new_location_path)
 

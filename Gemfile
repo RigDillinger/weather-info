@@ -48,6 +48,10 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem "devise", "~> 4.8"
+
+gem "slim", "~> 4.1"
+
 gem "dotenv-rails", "~> 2.7", ">= 2.7.6"
 
 gem "rest-client", "~> 2.1"
@@ -76,7 +80,3 @@ group :test do
   gem "webdrivers"
   gem "shoulda-matchers", "~> 5.1"
 end
-
-gem "devise", "~> 4.8"
-
-gem "slim", "~> 4.1"

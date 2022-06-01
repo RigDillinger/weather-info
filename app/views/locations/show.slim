@@ -24,4 +24,4 @@ h1 = link_to("Forecast: #{@location.name}", root_path)
           img src="#{@weather_info.icon_url}"
 
 - if current_user.admin?
-  = button_to("X", location_path(@location), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } })
+  = button_to("X", location_path(@location), method: :delete)

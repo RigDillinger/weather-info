@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Setup
+```bash
+dip provision
+```
+### Launch
+```bash
+dip compose up
+```
+### Navigate to http://localhost:3000
+Default superadmin creds: superadmin@test.com / 12345678
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Prepare test DB
+```bash
+dip rails db:migrate RAILS_ENV=test
+```
+### Run tests
+```bash
+dip rspec
+```
