@@ -1,0 +1,4 @@
+= form_with url: "/locations", method: :post, data: { turbo: false } do |form|
+  = form.label :name, "Location Name"
+  = form.text_field :name
+  = form.submit "Create Location"

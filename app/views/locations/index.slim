@@ -1,6 +1,9 @@
 h1 Weather Info
 
+- if current_user.admin?
+  h2 = link_to("Add location", new_location_path)
+
 - @locations.each do |location|
   table
     tr
-      td.name= link_to(location.name, location_path(location.id))
+      td.name = link_to(location.name, location_path(location.id))

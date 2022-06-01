@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :locations, only: %i[index show]
+  resources :locations, only: %i[index show create new destroy]
 
   root to: "locations#index"
 end

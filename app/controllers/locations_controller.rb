@@ -3,6 +3,20 @@
 class LocationsController < ApplicationController
   before_action :authenticate_user!
 
+  def new
+    @location = Location.new
+  end
+
+  def create
+    @location = Location.new(name: params[:name])
+
+    if @location.save
+      redirect_to @location
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def index
     @locations = Location.all
   end
@@ -10,6 +24,13 @@ class LocationsController < ApplicationController
   def show
     @location = find_location
     @weather_info = fetch_weather_info(@location.name)
+  end
+
+  def destroy
+    @location = find_location
+    @location.destroy
+
+    redirect_to locations_path, status: :see_other
   end
 
   private

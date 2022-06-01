@@ -1,4 +1,4 @@
-h1 = "Forecast: #{@location.name}"
+h1 = link_to("Forecast: #{@location.name}", root_path)
 
 - unless @weather_info.is_a?(Entities::Forecast)
   p = @weather_info.inspect
@@ -22,3 +22,6 @@ h1 = "Forecast: #{@location.name}"
           p = @weather_info.text
         td
           img src="#{@weather_info.icon_url}"
+
+- if current_user.admin?
+  = button_to("X", location_path(@location), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } })
